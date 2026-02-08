@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For You 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;font-family:Poppins,sans-serif}
+
+body{
+margin:0;height:100vh;
+background:linear-gradient(135deg,#2c2c2c,#4a1c2f);
+display:flex;align-items:center;justify-content:center;
+overflow:hidden;color:white}
+
+/* Candle glow */
+body::before{
+content:"";
+position:fixed;inset:0;
+background:radial-gradient(circle at bottom,
+rgba(255,180,120,.25),transparent 60%);
+animation:flicker 3s infinite;
+pointer-events:none}
+@keyframes flicker{50%{opacity:.6}}
+
+/* Floating hearts */
+.float{
+position:fixed;bottom:-30px;
+font-size:22px;opacity:.7;
+animation:floatUp linear infinite}
+@keyframes floatUp{
+0%{transform:translateY(0) scale(.8);opacity:0}
+10%{opacity:1}
+100%{transform:translateY(-120vh) scale(1.2);opacity:0}}
+
+/* Card */
+.card{
+background:white;color:#333;
+padding:28px;border-radius:24px;
+width:90%;max-width:380px;
+text-align:center;
+box-shadow:0 0 35px rgba(255,150,150,.7);
+animation:pop .4s ease}
+@keyframes pop{
+from{transform:scale(.8);opacity:0}
+to{transform:scale(1);opacity:1}}
+
+h1{color:#ff2d55}
+
+/* Buttons */
+.buttons{position:relative;height:90px;margin-top:20px}
+button{
+border:none;padding:12px 26px;
+border-radius:30px;font-size:16px;cursor:pointer}
+.yes{background:#ff4d6d;color:white}
+.no{background:#eee;position:absolute}
+
+/* Side heart */
+.side-heart{
+position:fixed;right:20px;bottom:50%;
+font-size:40px;
+animation:beat 1.2s infinite;
+transition:.4s}
+@keyframes beat{50%{transform:scale(1.2)}}
+
+/* Love meter */
+.love-meter{
+position:fixed;left:20px;bottom:30%;
+width:18px;height:180px;
+background:white;border-radius:15px;overflow:hidden}
+.love-fill{
+width:100%;height:0%;
+background:linear-gradient(to top,#ff2d55,#ff9a9e);
+transition:.5s}
+
+/* Input */
+input{
+padding:12px;width:80%;
+border-radius:20px;
+border:1px solid #ccc;
+margin-top:12px}
+</style>
+</head>
+
+<body>
+
+<div class="love-meter"><div class="love-fill" id="loveFill"></div></div>
+<div class="side-heart" id="sideHeart">💗</div>
+
+<div class="card" id="card">
+<h1>🔐 Enter the Secret</h1>
+<p>This page is only for you 💌</p>
+
+<input type="password" id="pass" placeholder="Secret word"><br><br>
+<button class="yes" onclick="checkPass()">Enter 💖</button>
+</div>
+
+<!-- 🎵 Background music (hidden, backend only) -->
+<audio id="mainMusic" src="C:\Users\karan\Desktop\VALENTINES DAY\lnplusmusic-romantic-love-hopeful-music-336295.mp3" loop></audio>
+<audio id="pianoMusic" src="C:\Users\karan\Desktop\VALENTINES DAY\sigmamusicart-piano-background-music-462076.mp3" loop></audio>
+
+<script>
+const PASSWORD = "03112024";
+
+const questions=[
+"Do you know how special you are to me? 🥺",
+"Do I make you feel loved? 💕",
+"Do you like being MY person? 🫶",
+"Can I hold your hand forever? 🤍",
+"Will you share your heart with me? 💍",
+"Will you be my Valentine? 🌹"
+];
+
+let step=0,heart=1,love=0;
+
+/* Floating hearts */
+const emojis=["💖","💗","💘","💕","💞"];
+setInterval(()=>{
+const h=document.createElement("div");
+h.className="float";
+h.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=5+Math.random()*3+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),9000);
+},500);
+
+function checkPass(){
+const pass=document.getElementById("pass").value;
+if(pass!==PASSWORD){ alert("Wrong secret 😜"); return; }
+
+const music=document.getElementById("mainMusic");
+music.volume=0.4;
+music.play();
+
+showQuestion();
+}
+
+function showQuestion(){
+document.getElementById("card").innerHTML=`
+<h1>Hey KUNJA 💕</h1>
+<p>${questions[step]}</p>
+<div class="buttons">
+<button class="yes" onclick="next()">Yes 💖</button>
+<button class="no" onmouseover="run(this)">No 😜</button>
+</div>`;
+}
+
+function run(btn){
+btn.style.left=Math.random()*220+"px";
+btn.style.top=Math.random()*60+"px";
+}
+
+function next(){
+heart+=.35;love+=16;
+sideHeart.style.transform=`scale(${heart})`;
+loveFill.style.height=love+"%";
+
+step++;
+if(step<questions.length){
+showQuestion();
+}else finalLove();
+}
+
+function finalLove(){
+document.getElementById("mainMusic").pause();
+
+const piano=document.getElementById("pianoMusic");
+piano.volume=0.45;
+piano.play();
+
+document.getElementById("card").innerHTML=`
+<h1>I LOVE YOU ❤️</h1>
+<p>This moment is saved forever 🕯️,We started as two strangers on a tiny screen.
+One swipe. One match.  
+And then… a simple “Hi”.
+
+I never knew that one small message from Tinder
+would slowly turn into my favorite story.
+
+From late-night chats to nervous smiles,
+from our first meet to moments that felt like home,
+you became my comfort, my happiness, my safe place.
+
+Every laugh with you feels lighter.
+Every silence feels peaceful.
+And every day with you feels like a gift
+I never knew I needed so badly.
+
+This page, this moment, this memory —
+I want it to remind you that
+you are loved in ways words will never fully explain.
+
+And no matter where life takes us,
+my heart will always choose you.</p>
+<p><b>Love, KARU 💌</b></p>
+<br>
+<button class="yes"
+onclick="window.open('https://wa.me/919645966343?text=I%20SAID%20YES%20❤️')">
+📱 Send YES Screenshot
+</button>`;
+}
+</script>
+
+</body>
+</html>
